@@ -29,6 +29,12 @@ const Home = () => {
     console.log(x, y);
     const newBoard = JSON.parse(JSON.stringify(board));
 
+    const checkBoard = () => {
+      for (let i = 0; i < 8; i += 1) {
+        for (let j = 0; j < 8; j += 1) {}
+      }
+    };
+
     if (board[y][x] === 0) {
       let putStone = false;
       for (const s of direction) {
@@ -55,7 +61,6 @@ const Home = () => {
         setTurnColor(3 - turnColor);
       }
     }
-
     setBoard(newBoard);
   };
 
@@ -68,7 +73,11 @@ const Home = () => {
               {color !== 0 && (
                 <div
                   className={styles.stone}
-                  style={{ background: color === 1 ? '#000' : '#fff' }}
+                  //style={{ background: color === 1 ? '#000' : '#fff' }}
+                  // style={{if (background:color === 1){'#000'};
+                  // else if (background:color === 2){'#fff'};
+                  // else if (background:color === 3){'#FFFF00'} }}
+                  style={{ background: color === 1 ? '#000' : color === 2 ? '#fff' : '#FFFF00' }}
                 />
               )}
             </div>
