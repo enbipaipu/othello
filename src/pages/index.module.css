@@ -8,6 +8,27 @@
   padding: 0 0.5rem;
 }
 
+.board {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: rgb(0 161 16);
+  height: 640px;
+  width: 640px;
+}
+
+.cell {
+  height: 80px;
+  width: 80px;
+  border: 1px solid black;
+}
+
+.stone {
+  height: 80px;
+  width: 80px;
+  background-color: rgb(0 0 0);
+  border-radius: 40px;
+}
+
 .main {
   display: flex;
   flex: 1;
