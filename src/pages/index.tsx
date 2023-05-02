@@ -1,99 +1,59 @@
 import { useState } from 'react';
 import styles from './index.module.css';
-import { dir } from 'console';
 
 const Home = () => {
   const [turnColor, setTurnColor] = useState(1);
 
-  //prettier-ignore
   const [board, setBoard] = useState([
-    [0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0],
-    [0,0,0,1,2,0,0,0],
-    [0,0,0,2,1,0,0,0],
-    [0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0],
-        
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 1, 2, 0, 0, 0],
+    [0, 0, 0, 2, 1, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
   ]);
-  const dir = []
+  const direction = [
+    [-1, 0],
+    [-1, 1],
+    [0, 1],
+    [1, 1],
+    [1, 0],
+    [1, -1],
+    [0, -1],
+    [-1, -1],
+  ];
 
   const clickCell = (x: number, y: number) => {
     console.log(x, y);
     const newBoard = JSON.parse(JSON.stringify(board));
 
     if (board[y][x] === 0) {
-      for(dir)
-      let a = false;
-      for (let distans = 1; distans < 8; distans += 1) {
-        if (board[y + 1 * distans] === undefined) {
-          break;
-        } else if (board[y + 1 * distans][x + 0 * distans] === 0) {
-          break;
-        } else if (board[y + 1 * distans][x + 0 * distans] === 3 - turnColor) {
-          a = true;
-        } else if (board[y + 1 * distans][x + 0 * distans] === turnColor) {
-          for (let i = distans; i >= 0; i -= 1) {
-            if (a) {
-              newBoard[y + 1 * i][x + 0 * i] = turnColor;
+      let putStone = false;
+      for (const s of direction) {
+        let passWhite = false;
+        for (let distance = 1; distance < 8; distance += 1) {
+          if (board[y + s[0] * distance] === undefined) {
+            break;
+          } else if (board[y + s[0] * distance][x + s[1] * distance] === 0) {
+            break;
+          } else if (board[y + s[0] * distance][x + s[1] * distance] === 3 - turnColor) {
+            passWhite = true;
+          } else if (board[y + s[0] * distance][x + s[1] * distance] === turnColor) {
+            for (let i = distance; i >= 0; i -= 1) {
+              if (passWhite) {
+                putStone = true;
+                newBoard[y + s[0] * i][x + s[1] * i] = turnColor;
+              }
             }
+            break;
           }
-
-          setTurnColor(3 - turnColor);
-          break;
         }
       }
-      // else if (
-      //   board[y + 1][x - 1] !== undefined &&
-      //   board[y + 1][x - 1] !== 0 &&
-      //   board[y + 1][x - 1] !== turnColor
-      // ) {
-      //   newBoard[y][x] = turnColor;
-      //   setTurnColor(3 - turnColor);
-      // } else if (
-      //   board[x - 1] !== undefined &&
-      //   board[y][x - 1] !== 0 &&
-      //   board[y][x - 1] !== turnColor
-      // ) {
-      //   newBoard[y][x] = turnColor;
-      //   setTurnColor(3 - turnColor);
-      // } else if (
-      //   board[y - 1][x - 1] !== undefined &&
-      //   board[y - 1][x - 1] !== 0 &&
-      //   board[y - 1][x - 1] !== turnColor
-      // ) {
-      //   newBoard[y][x] = turnColor;
-      //   setTurnColor(3 - turnColor);
-      // } else if (
-      //   board[y - 1] !== undefined &&
-      //   board[y - 1][x] !== 0 &&
-      //   board[y - 1][x] !== turnColor
-      // ) {
-      //   newBoard[y][x] = turnColor;
-      //   setTurnColor(3 - turnColor);
-      // } else if (
-      //   board[y - 1][x + 1] !== undefined &&
-      //   board[y + 1][x + 1] !== 0 &&
-      //   board[y + 1][x + 1] !== turnColor
-      // ) {
-      //   newBoard[y][x] = turnColor;
-      //   setTurnColor(3 - turnColor);
-      // } else if (
-      //   board[y][x + 1] !== undefined &&
-      //   board[y][x + 1] !== 0 &&
-      //   board[y][x + 1] !== turnColor
-      // ) {
-      //   newBoard[y][x] = turnColor;
-      //   setTurnColor(3 - turnColor);
-      // } else if (
-      //   board[y + 1][x + 1] !== undefined &&
-      //   board[y + 1][x + 1] !== 0 &&
-      //   board[y + 1][x + 1] !== turnColor
-      // ) {
-      //   newBoard[y][x] = turnColor;
-      //   setTurnColor(3 - turnColor);
-      // }
+      if (putStone) {
+        setTurnColor(3 - turnColor);
+      }
     }
 
     setBoard(newBoard);
