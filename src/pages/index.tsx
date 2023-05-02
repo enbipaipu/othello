@@ -7,10 +7,10 @@ const Home = () => {
   const [board, setBoard] = useState([
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 1, 2, 0, 0, 0],
-    [0, 0, 0, 2, 1, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 3, 0, 0, 0],
+    [0, 0, 0, 1, 2, 3, 0, 0],
+    [0, 0, 3, 2, 1, 0, 0, 0],
+    [0, 0, 0, 3, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
   ]);
@@ -29,20 +29,53 @@ const Home = () => {
     console.log(x, y);
     const newBoard = JSON.parse(JSON.stringify(board));
 
-    const checkBoard = () => {
+    function checkBoard() {
       for (let i = 0; i < 8; i += 1) {
-        for (let j = 0; j < 8; j += 1) {}
+        for (let j = 0; j < 8; j += 1) {
+          if (newBoard[i][j] === 3) {
+            newBoard[i][j] = 0;
+          }
+        }
       }
-    };
+      for (let i = 0; i < 8; i += 1) {
+        for (let j = 0; j < 8; j += 1) {
+          if (newBoard[i][j] === 0) {
+            for (const s of direction) {
+              let passWhite = false;
+              for (let dis = 1; dis < 8; dis += 1) {
+                if (newBoard[i + s[0] * dis] === undefined) {
+                  break;
+                } else if (
+                  newBoard[i + s[0] * dis][j + s[1] * dis] === 0 ||
+                  newBoard[i + s[0] * dis][j + s[1] * dis] === 3
+                ) {
+                  break;
+                } else if (newBoard[i + s[0] * dis][j + s[1] * dis] === turnColor) {
+                  passWhite = true;
+                } else if (newBoard[i + s[0] * dis][j + s[1] * dis] === 3 - turnColor) {
+                  if (passWhite) {
+                    newBoard[i][j] = 3;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      setBoard(newBoard);
+    }
 
-    if (board[y][x] === 0) {
+    if (board[y][x] === 3) {
       let putStone = false;
       for (const s of direction) {
         let passWhite = false;
         for (let distance = 1; distance < 8; distance += 1) {
           if (board[y + s[0] * distance] === undefined) {
             break;
-          } else if (board[y + s[0] * distance][x + s[1] * distance] === 0) {
+          } else if (
+            board[y + s[0] * distance][x + s[1] * distance] === 0 ||
+            board[y + s[0] * distance][x + s[1] * distance] === 3
+          ) {
             break;
           } else if (board[y + s[0] * distance][x + s[1] * distance] === 3 - turnColor) {
             passWhite = true;
@@ -58,6 +91,8 @@ const Home = () => {
         }
       }
       if (putStone) {
+        setBoard(newBoard);
+        checkBoard();
         setTurnColor(3 - turnColor);
       }
     }
@@ -73,11 +108,7 @@ const Home = () => {
               {color !== 0 && (
                 <div
                   className={styles.stone}
-                  //style={{ background: color === 1 ? '#000' : '#fff' }}
-                  // style={{if (background:color === 1){'#000'};
-                  // else if (background:color === 2){'#fff'};
-                  // else if (background:color === 3){'#FFFF00'} }}
-                  style={{ background: color === 1 ? '#000' : color === 2 ? '#fff' : '#FFFF00' }}
+                  style={{ background: color === 1 ? '#000' : color === 2 ? '#fff' : '#ff8800' }}
                 />
               )}
             </div>
