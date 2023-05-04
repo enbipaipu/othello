@@ -7,10 +7,10 @@ const Home = () => {
   const [board, setBoard] = useState([
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 1, 2, 0, 0, 0],
-    [0, 0, 0, 2, 1, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 3, 0, 0, 0, 0],
+    [0, 0, 3, 2, 1, 0, 0, 0],
+    [0, 0, 0, 1, 2, 3, 0, 0],
+    [0, 0, 0, 0, 3, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
   ]);
@@ -29,48 +29,60 @@ const Home = () => {
     console.log(x, y);
     const newBoard = JSON.parse(JSON.stringify(board));
 
-    // function checkBoard(): {
-    //   for (let i = 0; i < 8; i += 1) {
-    //     for (let j = 0; j < 8; j += 1) {
-    //       if (newBoard[i][j] === 3) {
-    //         newBoard[i][j] = 0;
-    //       }
-    //     }
-    //   }
-    //   for (let i = 0; i < 8; i += 1) {
-    //     for (let j = 0; j < 8; j += 1) {
-    //       let pass = false;
-    //       if (newBoard[i][j] === 0) {
-    //         for (const t of direction) {
-    //           for (let dis = 1; dis < 8; dis += 1) {
-    //             if (newBoard[i + t[0] * dis] === undefined) {
-    //               break;
-    //             } else if (newBoard[i + t[0] * dis][j + t[1] * dis] === 0) {
-    //               break;
-    //             } else if (newBoard[i + t[0] * dis][j + t[1] * dis] === 3 - turnColor) {
-    //               pass = true;
-    //             } else if (newBoard[i + t[0] * dis][j + t[1] * dis] === turnColor) {
-    //               if (pass) {
-    //                 newBoard[i][j] = 3;
-    //                 break;
-    //               }
-    //             }
-    //           }
-    //         }
-    //       }
-    //     }
-    //   }
-    //   setBoard(newBoard);
-    // }
+    function checkBoard(color: number) {
+      for (let i = 0; i < 8; i += 1) {
+        for (let j = 0; j < 8; j += 1) {
+          if (newBoard[i][j] === 3) {
+            newBoard[i][j] = 0;
+          }
+        }
+      }
+      for (let i = 0; i < 8; i += 1) {
+        for (let j = 0; j < 8; j += 1) {
+          if (newBoard[i][j] === 0) {
+            console.log(i, j);
+            for (const t of direction) {
+              let pass = false;
+              console.log(t);
+              for (let dis = 1; dis < 8; dis += 1) {
+                console.log(dis);
+                if (newBoard[i + t[0] * dis] === undefined) {
+                  console.log('e');
+                  break;
+                } else if (newBoard[j + t[1] * dis] === undefined) {
+                  console.log('d');
+                  break;
+                } else if (newBoard[i + t[0] * dis][j + t[1] * dis] % 3 === 0) {
+                  console.log('c');
+                  break;
+                } else if (newBoard[i + t[0] * dis][j + t[1] * dis] === color) {
+                  pass = true;
+                  console.log('b');
+                } else if (newBoard[i + t[0] * dis][j + t[1] * dis] === 3 - color) {
+                  console.log('a');
+                  if (pass) {
+                    newBoard[i][j] = 3;
+                    console.log('aaaaaaaaaaaaaaaa');
+                  }
 
-    if (board[y][x] === 0) {
+                  break;
+                }
+              }
+            }
+          }
+        }
+      }
+      setBoard(newBoard);
+    }
+
+    if (board[y][x] === 3) {
       let putStone = false;
       for (const s of direction) {
         let passWhite = false;
         for (let distance = 1; distance < 8; distance += 1) {
           if (board[y + s[0] * distance] === undefined) {
             break;
-          } else if (board[y + s[0] * distance][x + s[1] * distance] === 0) {
+          } else if (board[y + s[0] * distance][x + s[1] * distance] === (0 || 3)) {
             break;
           } else if (board[y + s[0] * distance][x + s[1] * distance] === 3 - turnColor) {
             passWhite = true;
@@ -87,9 +99,14 @@ const Home = () => {
       }
       if (putStone) {
         setBoard(newBoard);
-        //checkBoard();
+        checkBoard(turnColor);
         setTurnColor(3 - turnColor);
       }
+    }
+    if (newBoard.some((row: number[]) => row.includes(3)) === false) {
+      checkBoard(3 - turnColor);
+      setTurnColor(turnColor);
+      alert('パスされました');
     }
   };
 
