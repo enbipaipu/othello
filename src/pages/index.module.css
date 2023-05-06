@@ -6,7 +6,7 @@
   height: 100vh;
   min-height: 100vh;
   padding: 0 0.5rem;
-  background-color: rgb(255 255 255);
+  background-color: rgb(202 202 202 / 95.4%);
 }
 
 .board {
@@ -17,10 +17,65 @@
   width: 640px;
 }
 
+.button {
+  width: 200px; /* ボタンの幅を調整 */
+  height: 60px; /* ボタンの高さを調整 */
+  font-size: 25px;
+
+  /* その他のスタイルプロパティを追加できます */
+}
+
+/* .turn {
+  font-size: 25px;
+}
+
+.score {
+  font-size: 25px;
+}
+
+.space {
+  margin-bottom: 0; /* スペースの高さを調整 */
+
+/* その他のスタイルプロパティを追加できます */
+
+.sidePanel {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-left: 1200px; /* 適切な間隔に調整してください */
+  margin-top: -470px;
+}
+
+.turn,
+.score,
+.button {
+  margin-bottom: 50px; /* 適切な間隔に調整してください */
+}
+
 .cell {
   height: 80px;
   width: 80px;
   border: 2px solid rgb(97 120 129);
+}
+
+@keyframes blink {
+  0% {
+    border-color: orange;
+  }
+
+  50% {
+    border-color: rgb(97 120 129);
+  }
+
+  100% {
+    border-color: orange;
+  }
+}
+/* stylelint-disable-next-line selector-class-pattern */
+.orangeBorder {
+  animation: blink 2.25s infinite;
+  border-color: orange;
+  border-width: 5px;
 }
 
 .stone {
