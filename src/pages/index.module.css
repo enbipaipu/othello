@@ -6,12 +6,13 @@
   height: 100vh;
   min-height: 100vh;
   padding: 0 0.5rem;
+  background-color: rgb(255 255 255);
 }
 
 .board {
   display: flex;
   flex-wrap: wrap;
-  background-color: rgb(0 161 16);
+  background-color: rgb(2 169 181);
   height: 640px;
   width: 640px;
 }
@@ -19,12 +20,12 @@
 .cell {
   height: 80px;
   width: 80px;
-  border: 1px solid black;
+  border: 2px solid rgb(97 120 129);
 }
 
 .stone {
-  height: 80px;
-  width: 80px;
+  height: 79px;
+  width: 79px;
   background-color: rgb(0 0 0);
   border-radius: 40px;
 }

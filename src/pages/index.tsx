@@ -29,6 +29,22 @@ const Home = () => {
     console.log(x, y);
     const newBoard = JSON.parse(JSON.stringify(board));
 
+    const cellCount = function () {
+      const total = 81;
+      let brake = 0;
+      let blank = 0;
+      for (let len = 0; len < 8; len += 1) {
+        for (let wid = 0; wid < 8; wid += 1) {
+          if (board[len][wid] === 0) {
+            blank += 1;
+          } else if (board[len][wid] === 1) {
+            brake += 1;
+          }
+        }
+      }
+      const white = total - brake - blank;
+    };
+
     function checkBoard(color: number) {
       for (let i = 0; i < 8; i += 1) {
         for (let j = 0; j < 8; j += 1) {
@@ -45,24 +61,17 @@ const Home = () => {
               let pass = false;
               console.log(t);
               for (let dis = 1; dis < 8; dis += 1) {
-                console.log(dis);
                 if (newBoard[i + t[0] * dis] === undefined) {
-                  console.log('e');
                   break;
                 } else if (newBoard[j + t[1] * dis] === undefined) {
-                  console.log('d');
                   break;
                 } else if (newBoard[i + t[0] * dis][j + t[1] * dis] % 3 === 0) {
-                  console.log('c');
                   break;
                 } else if (newBoard[i + t[0] * dis][j + t[1] * dis] === color) {
                   pass = true;
-                  console.log('b');
                 } else if (newBoard[i + t[0] * dis][j + t[1] * dis] === 3 - color) {
-                  console.log('a');
                   if (pass) {
                     newBoard[i][j] = 3;
-                    console.log('aaaaaaaaaaaaaaaa');
                   }
 
                   break;
@@ -101,12 +110,16 @@ const Home = () => {
         setBoard(newBoard);
         checkBoard(turnColor);
         setTurnColor(3 - turnColor);
+        cellCount();
       }
     }
     if (newBoard.some((row: number[]) => row.includes(3)) === false) {
       checkBoard(3 - turnColor);
       setTurnColor(turnColor);
-      alert('パスされました');
+      alert(
+        `石を置ける場所がないため${3 - turnColor === 1 ? '黒' : '白'}のターンがスキップされます`
+      );
+      cellCount();
     }
   };
 
@@ -119,14 +132,16 @@ const Home = () => {
               {color !== 0 && (
                 <div
                   className={styles.stone}
-                  style={{ background: color === 1 ? '#000' : color === 2 ? '#fff' : '#ff8800' }}
+                  style={{ background: color === 1 ? '#000' : color === 2 ? '#fff' : '#ff8400' }}
                 />
               )}
             </div>
           ))
         )}
       </div>
-      {`${turnColor === 1 ? '黒' : '白'}の番です`};
+      <h1>{turnColor === 1 ? '黒' : '白'}の番です</h1>
+
+      <h1>黒: 白:</h1>
     </div>
   );
 };
