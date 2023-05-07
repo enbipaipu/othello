@@ -1,3 +1,7 @@
+/* stylelint-disable selector-class-pattern */
+/* stylolite-disable selector-class-pattern */
+
+/* styleless-disable kebab-case selector-class-pattern */
 .container {
   display: flex;
   flex-direction: column;
@@ -25,19 +29,7 @@
   /* その他のスタイルプロパティを追加できます */
 }
 
-/* .turn {
-  font-size: 25px;
-}
-
-.score {
-  font-size: 25px;
-}
-
-.space {
-  margin-bottom: 0; /* スペースの高さを調整 */
-
-/* その他のスタイルプロパティを追加できます */
-
+/* stylelint-disable-next-line selector-class-pattern */
 .sidePanel {
   display: flex;
   flex-direction: column;
@@ -71,7 +63,8 @@
     border-color: orange;
   }
 }
-/* stylelint-disable-next-line selector-class-pattern */
+
+/* stylet-disable-next-line selector-class-pattern */
 .orangeBorder {
   animation: blink 2.25s infinite;
   border-color: orange;
