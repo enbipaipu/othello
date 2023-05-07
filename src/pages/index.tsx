@@ -135,45 +135,12 @@ const Home = () => {
   });
 
   return (
-    // <div className={styles.container}>
-    //   {/* リセットボタンのJSXを追加 */}
-    //   <button className={styles.button} onClick={resetBoard}>
-    //     リセット
-    //   </button>
-    //   &emsp;
-    //   <div className={styles.board}>
-    //     {board.map((row, y) =>
-    //       row.map((color, x) => (
-    //         <div
-    //           className={styles.cell + (color === 3 ? ` ${styles.orangeBorder}` : '')}
-    //           onClick={() => clickCell(x, y)}
-    //           key={`${x}-${y}`}
-    //         >
-    //           {color !== 0 && color !== 3 && (
-    //             <div
-    //               className={styles.stone}
-    //               style={{ background: color === 1 ? '#000' : '#fff' }}
-    //             />
-    //           )}
-    //         </div>
-    //       ))
-    //     )}
-    //   </div>
-    //   <div className={styles.turn}>
-    //     <h1>{turnColor === 1 ? '黒' : '白'}の番です</h1>
-    //   </div>
-    //   <div className={`${styles.space} ${styles.score}`}>
-    //     <h1>
-    //       ＜得点＞&emsp;黒: {blackStones} &emsp;白: {whiteStones}
-    //     </h1>
-    //   </div>
-    // </div>
     <div className={styles.container}>
       <div className={styles.board}>
         {board.map((row, y) =>
           row.map((color, x) => (
             <div
-              className={styles.cell + (color === 3 ? ` ${styles.orangeBorder}` : '')}
+              className={styles.cell + (color === 3 ? ` ${styles['orange-border']}` : '')}
               onClick={() => clickCell(x, y)}
               key={`${x}-${y}`}
             >
@@ -187,7 +154,7 @@ const Home = () => {
           ))
         )}
       </div>
-      <div className={styles.sidePanel}>
+      <div className={styles['side-panel']}>
         <div className={styles.turn}>
           <h1>{turnColor === 1 ? '黒' : '白'}の番です</h1>
         </div>
