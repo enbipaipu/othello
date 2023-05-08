@@ -4,7 +4,7 @@ import styles from './index.module.css';
 const Home = () => {
   const [turnColor, setTurnColor] = useState(1);
 
-  const [board, setBoard] = useState([
+  const effortBoard = [
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 3, 0, 0, 0, 0],
@@ -13,17 +13,10 @@ const Home = () => {
     [0, 0, 0, 0, 3, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
-  ]);
-  const [initialBoard, setInitialBoard] = useState([
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 3, 0, 0, 0, 0],
-    [0, 0, 3, 2, 1, 0, 0, 0],
-    [0, 0, 0, 1, 2, 3, 0, 0],
-    [0, 0, 0, 0, 3, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-  ]);
+  ];
+
+  const [board, setBoard] = useState(effortBoard);
+
   const direction = [
     [-1, 0],
     [-1, 1],
@@ -36,7 +29,7 @@ const Home = () => {
   ];
 
   const resetBoard = () => {
-    setBoard(initialBoard);
+    setBoard(effortBoard);
     setTurnColor(1);
   };
 
