@@ -152,9 +152,9 @@ const Home = () => {
           <h1>{turnColor === 1 ? '黒' : '白'}の番です</h1>
         </div>
         <div className={styles.score}>
-          <h1>
-            ＜得点＞&emsp;黒: {blackStones} &emsp;白: {whiteStones}
-          </h1>
+          <h1>＜得点＞</h1>
+          <h1>黒: {blackStones}</h1>
+          <h1>白: {whiteStones}</h1>
         </div>
         {/* リセットボタン */}
         <button className={styles.button} onClick={resetBoard}>
