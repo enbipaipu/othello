@@ -7,7 +7,7 @@
   height: 100vh;
   min-height: 100vh;
   padding: 0 0.5rem;
-  background-color: rgb(157 199 109 / 95.4%);
+  background-color: rgb(172 187 175 / 74.9%);
 }
 
 .board {
@@ -15,7 +15,7 @@
   flex-wrap: wrap;
   width: 70vh;
   height: 70vh;
-  background-color: rgb(2 169 181);
+  background-color: rgb(3 172 48 / 91.8%);
 }
 
 .cell {
@@ -75,4 +75,5 @@
   width: 15vh; /* ボタンの幅を調整 */
   height: 7vh; /* ボタンの高さを調整 */
   font-size: 100%;
+  border-radius: 45%;
 }
