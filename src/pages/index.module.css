@@ -27,7 +27,7 @@
   border: 2px solid rgb(97 120 129);
 }
 
-.orange-border {
+.orangeBorder {
   background-color: orange;
   border-width: 2px;
   animation: blink 2.25s infinite;
@@ -54,7 +54,7 @@
   }
 }
 
-.side-panel {
+.sidePanel {
   display: grid;
 
   /* justify-content: center; */

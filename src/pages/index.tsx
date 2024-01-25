@@ -133,7 +133,7 @@ const Home = () => {
         {board.map((row, y) =>
           row.map((color, x) => (
             <div
-              className={styles.cell + (color === 3 ? ` ${styles['orange-border']}` : '')}
+              className={styles.cell + (color === 3 ? ` ${'orangeBorder'}` : '')}
               onClick={() => clickCell(x, y)}
               key={`${x}-${y}`}
             >
@@ -147,7 +147,7 @@ const Home = () => {
           ))
         )}
       </div>
-      <div className={styles['side-panel']}>
+      <div className={'sidePanel'}>
         <div className={styles.turn}>
           <h1>{turnColor === 1 ? '黒' : '白'}の番です</h1>
         </div>
