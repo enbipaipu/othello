@@ -4,7 +4,7 @@ import styles from './index.module.css';
 const Home = () => {
   const [turnColor, setTurnColor] = useState(1);
 
-  const effortBoard = [
+  const effortBoard: number[][] = [
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 3, 0, 0, 0, 0],
@@ -17,7 +17,7 @@ const Home = () => {
 
   const [board, setBoard] = useState(effortBoard);
 
-  const direction = [
+  const directions = [
     [-1, 0],
     [-1, 1],
     [0, 1],
@@ -34,51 +34,53 @@ const Home = () => {
   };
 
   const clickCell = (x: number, y: number) => {
-    console.log(x, y);
-    const newBoard = JSON.parse(JSON.stringify(board));
+    // console.log(x, y);
+    const newBoard: number[][] = JSON.parse(JSON.stringify(board));
 
-    function checkBoard(color: number) {
-      for (let i = 0; i < 8; i += 1) {
-        for (let j = 0; j < 8; j += 1) {
-          if (newBoard[i][j] === 3) {
-            newBoard[i][j] = 0;
+    const checkBoard = (color: number) => {
+      newBoard.forEach((row, t) => {
+        row.forEach((_, s) => {
+          if (newBoard[t][s] === 3) {
+            newBoard[t][s] = 0;
           }
-        }
-      }
-      for (let i = 0; i < 8; i += 1) {
-        for (let j = 0; j < 8; j += 1) {
-          if (newBoard[i][j] === 0) {
-            console.log(i, j);
-            for (const t of direction) {
-              let pass = false;
-              console.log(t);
-              for (let dis = 1; dis < 8; dis += 1) {
-                if (newBoard[i + t[0] * dis] === undefined) {
-                  break;
-                } else if (newBoard[j + t[1] * dis] === undefined) {
-                  break;
-                } else if (newBoard[i + t[0] * dis][j + t[1] * dis] % 3 === 0) {
-                  break;
-                } else if (newBoard[i + t[0] * dis][j + t[1] * dis] === color) {
-                  pass = true;
-                } else if (newBoard[i + t[0] * dis][j + t[1] * dis] === 3 - color) {
-                  if (pass) {
-                    newBoard[i][j] = 3;
-                  }
+        });
+      });
 
-                  break;
+      //オセロの石を押せる候補地を生成。
+      newBoard.forEach((row, t) => {
+        row.forEach((_, s) => {
+          if (newBoard[t][s] !== 0) return;
+
+          for (const direc of directions) {
+            let pass = false;
+            if (newBoard[t][s] === 3) console.log('t:', t, 's:', s, 'newBoard', newBoard[t][s]);
+            for (let dis = 1; dis < 8; dis += 1) {
+              if (newBoard[t + direc[0] * dis] === undefined) {
+                break;
+              } else if (newBoard[s + direc[1] * dis] === undefined) {
+                break;
+              } else if (newBoard[t + direc[0] * dis][s + direc[1] * dis] % 3 === 0) {
+                break;
+              } else if (newBoard[t + direc[0] * dis][s + direc[1] * dis] === color) {
+                pass = true;
+              } else if (newBoard[t + direc[0] * dis][s + direc[1] * dis] === 3 - color) {
+                if (pass) {
+                  newBoard[t][s] = 3;
                 }
+
+                break;
               }
             }
           }
-        }
-      }
+        });
+      });
+
       setBoard(newBoard);
-    }
+    };
 
     if (board[y][x] === 3) {
       let putStone = false;
-      for (const s of direction) {
+      for (const s of directions) {
         let passWhite = false;
         for (let distance = 1; distance < 8; distance += 1) {
           if (board[y + s[0] * distance] === undefined) {
