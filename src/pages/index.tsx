@@ -51,19 +51,21 @@ const Home = () => {
         row.forEach((_, s) => {
           if (newBoard[t][s] !== 0) return;
 
-          for (const direc of directions) {
+          for (const direction of directions) {
             let pass = false;
-            if (newBoard[t][s] === 3) console.log('t:', t, 's:', s, 'newBoard', newBoard[t][s]);
-            for (let dis = 1; dis < 8; dis += 1) {
-              if (newBoard[t + direc[0] * dis] === undefined) {
+            for (let distance = 1; distance < 8; distance++) {
+              const Y = t + direction[0] * distance;
+              const X = s + direction[1] * distance;
+
+              if (newBoard[Y] === undefined) {
                 break;
-              } else if (newBoard[s + direc[1] * dis] === undefined) {
+              } else if (newBoard[X] === undefined) {
                 break;
-              } else if (newBoard[t + direc[0] * dis][s + direc[1] * dis] % 3 === 0) {
+              } else if (newBoard[Y][X] % 3 === 0) {
                 break;
-              } else if (newBoard[t + direc[0] * dis][s + direc[1] * dis] === color) {
+              } else if (newBoard[Y][X] === color) {
                 pass = true;
-              } else if (newBoard[t + direc[0] * dis][s + direc[1] * dis] === 3 - color) {
+              } else if (newBoard[Y][X] === 3 - color) {
                 if (pass) {
                   newBoard[t][s] = 3;
                 }
@@ -78,34 +80,38 @@ const Home = () => {
       setBoard(newBoard);
     };
 
-    if (board[y][x] === 3) {
-      let putStone = false;
-      for (const s of directions) {
-        let passWhite = false;
-        for (let distance = 1; distance < 8; distance += 1) {
-          if (board[y + s[0] * distance] === undefined) {
-            break;
-          } else if (board[y + s[0] * distance][x + s[1] * distance] === (0 || 3)) {
-            break;
-          } else if (board[y + s[0] * distance][x + s[1] * distance] === 3 - turnColor) {
-            passWhite = true;
-          } else if (board[y + s[0] * distance][x + s[1] * distance] === turnColor) {
-            for (let i = distance; i >= 0; i -= 1) {
-              if (passWhite) {
-                putStone = true;
-                newBoard[y + s[0] * i][x + s[1] * i] = turnColor;
-              }
-            }
-            break;
+    if (board[y][x] !== 3) return; //押した場所が候補地ではないので終了。
+
+    let putStone = false;
+    for (const direction of directions) {
+      let pass = false;
+      for (let distance = 1; distance < 8; distance++) {
+        const Y = y + direction[0] * distance;
+        const X = x + direction[1] * distance;
+
+        if (board[Y] === undefined) {
+          break;
+        } else if (board[Y][X] % 3 === 0) {
+          break;
+        } else if (board[Y][X] === 3 - turnColor) {
+          pass = true;
+        } else if (board[Y][X] === turnColor) {
+          if (pass !== true) break;
+
+          for (let i = 0; i <= distance; i++) {
+            putStone = true;
+            newBoard[y + direction[0] * i][x + direction[1] * i] = turnColor;
           }
+          break;
         }
       }
-      if (putStone) {
-        setBoard(newBoard);
-        checkBoard(turnColor);
-        setTurnColor(3 - turnColor);
-      }
     }
+    if (putStone) {
+      setBoard(newBoard);
+      checkBoard(turnColor);
+      setTurnColor(3 - turnColor);
+    }
+
     if (newBoard.some((row: number[]) => row.includes(3)) === false) {
       checkBoard(3 - turnColor);
       setTurnColor(turnColor);
