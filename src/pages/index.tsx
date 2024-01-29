@@ -33,70 +33,60 @@ const Home = () => {
     setTurnColor(1);
   };
 
-  const clickCell = (x: number, y: number) => {
-    // console.log(x, y);
-    const newBoard: number[][] = JSON.parse(JSON.stringify(board));
-
-    const checkBoard = (color: number) => {
-      newBoard.forEach((row, t) => {
-        row.forEach((_, s) => {
-          if (newBoard[t][s] === 3) {
-            newBoard[t][s] = 0;
-          }
-        });
+  const make_place_proposed = (color: number, newBoard: number[][]) => {
+    //前回の候補地を削除。
+    newBoard.forEach((row, t) => {
+      row.forEach((_, s) => {
+        if (newBoard[t][s] === 3) {
+          newBoard[t][s] = 0;
+        }
       });
+    });
 
-      //オセロの石を押せる候補地を生成。
-      newBoard.forEach((row, t) => {
-        row.forEach((_, s) => {
-          if (newBoard[t][s] !== 0) return;
+    //オセロの石を押せる候補地を生成。
+    newBoard.forEach((row, t) => {
+      row.forEach((_, s) => {
+        if (newBoard[t][s] !== 0) return;
 
-          for (const direction of directions) {
-            let pass = false;
-            for (let distance = 1; distance < 8; distance++) {
-              const Y = t + direction[0] * distance;
-              const X = s + direction[1] * distance;
+        for (const direction of directions) {
+          let pass = false;
+          for (let distance = 1; distance < 8; distance++) {
+            const Y = t + direction[0] * distance;
+            const X = s + direction[1] * distance;
 
-              if (newBoard[Y] === undefined) {
-                break;
-              } else if (newBoard[X] === undefined) {
-                break;
-              } else if (newBoard[Y][X] % 3 === 0) {
-                break;
-              } else if (newBoard[Y][X] === color) {
-                pass = true;
-              } else if (newBoard[Y][X] === 3 - color) {
-                if (pass) {
-                  newBoard[t][s] = 3;
-                }
-
-                break;
-              }
+            if (newBoard[Y]?.[X] === undefined) break;
+            if (newBoard[Y][X] % 3 === 0) break;
+            if (newBoard[Y][X] === color) pass = true;
+            if (newBoard[Y][X] === 3 - color) {
+              if (!pass) break;
+              newBoard[t][s] = 3;
+              break;
             }
           }
-        });
+        }
       });
+    });
 
-      setBoard(newBoard);
-    };
+    setBoard(newBoard);
+  };
 
-    if (board[y][x] !== 3) return; //押した場所が候補地ではないので終了。
+  const clickCell = (x: number, y: number) => {
+    const newBoard: number[][] = JSON.parse(JSON.stringify(board));
+
+    if (board[y][x] !== 3) return;
 
     let putStone = false;
-    for (const direction of directions) {
+    directions.forEach((direction) => {
       let pass = false;
       for (let distance = 1; distance < 8; distance++) {
         const Y = y + direction[0] * distance;
         const X = x + direction[1] * distance;
 
-        if (board[Y] === undefined) {
-          break;
-        } else if (board[Y][X] % 3 === 0) {
-          break;
-        } else if (board[Y][X] === 3 - turnColor) {
-          pass = true;
-        } else if (board[Y][X] === turnColor) {
-          if (pass !== true) break;
+        if (board[Y] === undefined) break;
+        if (board[Y][X] % 3 === 0) break;
+        if (board[Y][X] === 3 - turnColor) pass = true;
+        if (board[Y][X] === turnColor) {
+          if (!pass) break;
 
           for (let i = 0; i <= distance; i++) {
             putStone = true;
@@ -105,15 +95,15 @@ const Home = () => {
           break;
         }
       }
-    }
+    });
     if (putStone) {
       setBoard(newBoard);
-      checkBoard(turnColor);
+      make_place_proposed(turnColor, newBoard);
       setTurnColor(3 - turnColor);
     }
 
     if (newBoard.some((row: number[]) => row.includes(3)) === false) {
-      checkBoard(3 - turnColor);
+      make_place_proposed(3 - turnColor, newBoard);
       setTurnColor(turnColor);
       alert(
         `石を置ける場所がないため${3 - turnColor === 1 ? '黒' : '白'}のターンがスキップされます`
